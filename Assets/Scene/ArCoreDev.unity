@@ -268,6 +268,10 @@ MonoBehaviour:
   TrackedPlanePrefab: {fileID: 1654175882956584, guid: 6a35c744e5010405c847fad90282d2be,
     type: 2}
   TreePrefab: {fileID: 1880786106835916, guid: 5754e8de6f2ce7249ac71808b0190459, type: 2}
+  TreeLimit: 5
+  BirdControllerPrefab: {fileID: 1532212255767378, guid: 6890be877ba7d3a4e9f22a8f3b2d9b86,
+    type: 2}
+  BirdSpawned: 0
   SearchingForPlaneUI: {fileID: 1133631540}
 --- !u!20 &896679035 stripped
 Camera:

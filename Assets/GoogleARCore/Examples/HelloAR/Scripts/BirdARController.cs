@@ -48,6 +48,12 @@ namespace GoogleARCore.HelloAR
         /// A model to place when a raycast from a user touch hits a plane.
         /// </summary>
         public GameObject TreePrefab;
+		public int TreeLimit;
+		private int currentTreeCount;
+
+		//Bird Prefab
+		public GameObject BirdControllerPrefab;
+		public bool BirdSpawned;
 
         /// <summary>
         /// A gameobject parenting UI for displaying the "searching for planes" snackbar.
@@ -138,27 +144,45 @@ namespace GoogleARCore.HelloAR
 
             if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
             {
-                var treeObject = Instantiate(TreePrefab, hit.Pose.position, hit.Pose.rotation);
+				if (TreeLimit >= currentTreeCount) {
+					var treeObject = Instantiate (TreePrefab, hit.Pose.position, hit.Pose.rotation);
 
-				treeObject.transform.localScale *= Random.Range (.7f, 1.5f);
+					treeObject.transform.localScale *= Random.Range (.7f, 1.5f);
 
-                // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
-                // world evolves.
-                var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+					// Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
+					// world evolves.
+					var anchor = hit.Trackable.CreateAnchor (hit.Pose);
 
-                // Andy should look at the camera but still be flush with the plane.
-                if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
-                {
-                    // Get the camera position and match the y-component with the hit position.
-                    Vector3 cameraPositionSameY = FirstPersonCamera.transform.position;
-                    cameraPositionSameY.y = hit.Pose.position.y;
+					// Andy should look at the camera but still be flush with the plane.
+					if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None) {
+						// Get the camera position and match the y-component with the hit position.
+						Vector3 cameraPositionSameY = FirstPersonCamera.transform.position;
+						cameraPositionSameY.y = hit.Pose.position.y;
 
-                    // Have Andy look toward the camera respecting his "up" perspective, which may be from ceiling.
-					treeObject.transform.LookAt(cameraPositionSameY, treeObject.transform.up);
-                }
+						// Have Andy look toward the camera respecting his "up" perspective, which may be from ceiling.
+						treeObject.transform.LookAt (cameraPositionSameY, treeObject.transform.up);
+					}
 
-                // Make Andy model a child of the anchor.
-				treeObject.transform.parent = anchor.transform;
+					// Make Andy model a child of the anchor.
+					treeObject.transform.parent = anchor.transform;
+
+					//iterate tree count
+					currentTreeCount += 1;
+				} 
+				//spawn bird controller
+				else if (BirdSpawned == false) {
+					BirdSpawned = true;
+
+					var BirdObject = Instantiate (BirdControllerPrefab, hit.Pose.position + new Vector3(0,.05f,0), hit.Pose.rotation);
+
+					// Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
+					// world evolves.
+					var anchor = hit.Trackable.CreateAnchor (hit.Pose);
+
+					// Make Andy model a child of the anchor.
+					BirdObject.transform.parent = anchor.transform;
+
+				}
             }
         }
 
