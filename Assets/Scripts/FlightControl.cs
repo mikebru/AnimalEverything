@@ -25,12 +25,12 @@ public class FlightControl : MonoBehaviour {
 
 				if (hit.transform.tag == "apple") {
 					Vector3 flyPoint = hit.point;
-					FlyTo (flyPoint, 6);
+					FlyTo (flyPoint, 3);
 				}
 				else if(hit.transform.tag == "Ground")
 				{
-					Vector3 flyPoint = hit.point + new Vector3 (0, 9, 0);
-					FlyTo (flyPoint, 3);
+					Vector3 flyPoint = hit.point + new Vector3 (0, 3f, 0);
+					FlyTo (flyPoint, 2);
 				}
 
 			}
