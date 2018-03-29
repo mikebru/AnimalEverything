@@ -269,7 +269,7 @@ MonoBehaviour:
     type: 2}
   TreePrefab: {fileID: 1880786106835916, guid: 5754e8de6f2ce7249ac71808b0190459, type: 2}
   TreeLimit: 5
-  BirdControllerPrefab: {fileID: 1532212255767378, guid: 6890be877ba7d3a4e9f22a8f3b2d9b86,
+  BirdControllerPrefab: {fileID: 1725879009578162, guid: 945ed8bfc6b11834783666757eba3dbf,
     type: 2}
   BirdSpawned: 0
   SearchingForPlaneUI: {fileID: 1133631540}

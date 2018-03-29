@@ -6,10 +6,16 @@ using GoogleARCore;
 public class FlightControlAR : MonoBehaviour {
 
 	private Vector3 currentHeading;
+	private Vector3 currentDist;
 
 	// Use this for initialization
 	void Start () {
 		currentHeading = transform.forward;
+		currentDist = transform.position;
+		GetComponent<Rigidbody> ().velocity = transform.forward * .5f;
+
+		//StartCoroutine (DistanceCheck ());
+
 	}
 	
 	// Update is called once per frame
@@ -30,7 +36,7 @@ public class FlightControlAR : MonoBehaviour {
 
 		if (Frame.Raycast (touch.position.x, touch.position.y, raycastFilter, out hit)) {
 
-			Vector3 flyPoint = hit.Pose.position + new Vector3 (0, .1f, 0);
+			Vector3 flyPoint = hit.Pose.position + new Vector3 (0, .3f, 0);
 			FlyTo (flyPoint, .5f);
 
 		}
@@ -69,6 +75,9 @@ public class FlightControlAR : MonoBehaviour {
 
 		Vector3 newHeading = newDirection - this.transform.position;
 		newHeading = newHeading.normalized;
+		currentDist = newDirection;
+
+
 
 		StartCoroutine (ChangeDirection (newHeading, speed));
 
@@ -98,6 +107,21 @@ public class FlightControlAR : MonoBehaviour {
 			yield return new WaitForFixedUpdate ();
 		}
 
+
+	}
+
+
+	IEnumerator DistanceCheck()
+	{
+
+		yield return new WaitForSeconds (.5f);
+
+		if (Vector3.Distance (currentDist, transform.position) > .5f) {
+			FlyTo (currentDist, .5f);
+		}
+
+
+		StartCoroutine (DistanceCheck ());
 
 	}
 

@@ -5,10 +5,17 @@ using UnityEngine;
 public class FlightControl : MonoBehaviour {
 
 	private Vector3 currentHeading;
+	private Vector3 currentDist;
 
 	// Use this for initialization
 	void Start () {
 		currentHeading = transform.forward;
+
+		currentDist = transform.position;
+		GetComponent<Rigidbody> ().velocity = transform.forward * 2;
+
+		StartCoroutine (DistanceCheck ());
+
 	}
 	
 	// Update is called once per frame
@@ -44,9 +51,10 @@ public class FlightControl : MonoBehaviour {
 
 		Vector3 newHeading = newDirection - this.transform.position;
 		newHeading = newHeading.normalized;
+		currentDist = newDirection;
+
 
 		StartCoroutine (ChangeDirection (newHeading, speed));
-
 	}
 
 
@@ -73,6 +81,21 @@ public class FlightControl : MonoBehaviour {
 			yield return new WaitForFixedUpdate ();
 		}
 
+
+	}
+
+
+	IEnumerator DistanceCheck()
+	{
+
+		yield return new WaitForSeconds (.5f);
+
+		if (Vector3.Distance (currentDist, transform.position) > .5f) {
+			FlyTo (currentDist, 2);
+		}
+
+
+		StartCoroutine (DistanceCheck ());
 
 	}
 
