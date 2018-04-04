@@ -6,6 +6,7 @@ TagManager:
   tags:
   - apple
   - Ground
+  - Planet
   layers:
   - Default
   - TransparentFX
