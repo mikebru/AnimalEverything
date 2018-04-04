@@ -31,7 +31,7 @@ public class PlanetGravity : MonoBehaviour {
 			intialForwardSpeed = planetControl.transform.position - this.transform.position;
 
 			float distance = Vector3.Distance (planetControl.transform.position, this.transform.position);
-			float massCombined = GetComponent<Rigidbody> ().mass;
+			float massCombined =  GetComponent<Rigidbody> ().mass;
 				
 				//planetControl.GetComponent<Rigidbody> ().mass;
 
